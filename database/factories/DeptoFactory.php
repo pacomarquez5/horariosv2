@@ -16,8 +16,9 @@ class DeptoFactory extends Factory
      */
     public function definition(): array
     {
+        $titulo=fake()->jobTitle();
         return [
-            //
+            "iddepto"=>
         ];
     }
 }
