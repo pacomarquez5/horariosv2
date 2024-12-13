@@ -7,6 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 
 class Alumno extends Model
 {
+    /** @use HasFactory<\Database\Factories\AlumnoFactory> */
     use HasFactory;
-    protected $fillable=['nombre','apellidoP','email'];
+
+    protected $fillable = ['noctrl', 'nombre', 'apellidoP', 'apellidoM', 'sexo', 'carrera_id'];
+
+    public function carrera()
+    {
+        return $this->belongsTo(Carrera::class);
+    }
+
+    public function alumnoGrupos()
+    {
+        return $this->hasMany(alumnoGrupo::class);
+    }
 }

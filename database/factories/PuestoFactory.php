@@ -15,11 +15,13 @@ class PuestoFactory extends Factory
      * @return array<string, mixed>
      */
     public function definition(): array
-    {   $tipo = array('Docente', 'Director', 'Administrador');
+    {
+        $tipos = ['Docente', 'Direccion', 'No Docente', 'Auxiliar', 'Administrativo'];
+
         return [
-            'idPuesto'  => fake()->bothify("???####"),
-            'nombre'    => fake()->jobTitle(),
-            'tipo'      => fake()->randomElement($tipo)
+            'idPuesto' => $this->faker->bothify("???####"),
+            'nombre' => $this->faker->jobTitle(),
+            'tipo' => $this->faker->randomElement($tipos),
         ];
     }
 }

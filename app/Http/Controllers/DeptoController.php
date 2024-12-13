@@ -7,59 +7,56 @@ use Illuminate\Http\Request;
 
 class DeptoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public $deptos;
+    public $val;
+    function __construct()
+    {
+        $this->deptos = Depto::paginate(5);
+        $this->val = [
+            'idDepto'    => 'required',
+            'nombreDepto'    => 'required',
+            'nombreMediano' => 'required',
+            'nombreCorto' => 'required'
+        ];
+    }
+
     public function index()
     {
-        //
+        return view("deptos/index", ['deptos' => $this->deptos]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('deptos/frm', ['deptos' => $this->deptos, 'accion' => 'C', 'des' => '', 'btn' => 'INSERTAR', 'color' => 'btn-success']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validado = $request->validate($this->val);
+        Depto::create($validado);
+        return redirect()->route("deptos.index")->with('mensaje', 'El registro se inserto correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Depto $depto)
     {
-        //
+        return view('deptos/frm', ['deptos' => $this->deptos, "depto" => $depto, 'accion' => 'S', 'des' => 'disabled', 'btn' => 'ELIMINAR', 'color' => 'btn-danger']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Depto $depto)
     {
-        //
+        return view('deptos/frm', ['deptos' => $this->deptos, "depto" => $depto, 'accion' => 'E', 'des' => '', 'btn' => 'EDITAR', 'color' => 'btn-warning']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Depto $depto)
     {
-        //
+        $validado = $request->validate($this->val);
+        $depto->update($validado);
+        return redirect()->route("deptos.index");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Depto $depto)
     {
-        //
+        $depto->delete();
+        return redirect()->route("deptos.index");
     }
 }

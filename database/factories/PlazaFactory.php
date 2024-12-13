@@ -18,7 +18,7 @@ class PlazaFactory extends Factory
     {
         return [
             'idPlaza'    => fake()->bothify("???####"),
-            'nombrePlaza'=> fake()->jobTitle()
+            'nombrePlaza'=> fake()->company()
         ];
     }
 }

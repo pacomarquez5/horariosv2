@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Carrera;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Alumno>
@@ -17,9 +18,14 @@ class AlumnoFactory extends Factory
     public function definition(): array
     {
         return [
+            'noctrl' => fake()->bothify("########"),
             'nombre' => fake()->name(),
             'apellidoP' => fake()->lastName(),
-            'email' => fake()->email()
+            'apellidoM' => fake()->lastName(),
+            'apellidoM' => fake()->lastName(),
+            'sexo'      => fake()->randomElement(['M','F']),
+            'email' => fake()->email(),
+            'carrera_id'=>Carrera::factory(),
         ];
     }
 }

@@ -3,63 +3,64 @@
 namespace App\Http\Controllers;
 
 use App\Models\Carrera;
+use App\Models\Depto;
 use Illuminate\Http\Request;
 
 class CarreraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public $carreras;
+    public $deptos;
+    public $val;
+    function __construct()
+    {
+        $this->carreras = Carrera::paginate(5);
+        $this->deptos   = Depto::get();
+        $this->val = [
+            'idCarrera'    => 'required',
+            'nombreCarrera'    => 'required',
+            'nombreMediano' => 'required',
+            'nombreCorto' => 'required',
+            'depto_id'       =>'required'
+        ];
+    }
+
     public function index()
     {
-        //
+        return view("carreras/index", ['carreras' => $this->carreras]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('carreras/frm', ['carreras' => $this->carreras, 'deptos' => $this->deptos, 'accion' => 'C', 'des' => '', 'btn' => 'INSERTAR', 'color' => 'btn-success']);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validado = $request->validate($this->val);
+        Carrera::create($validado);
+        return redirect()->route("carreras.index")->with('mensaje', 'El registro se inserto correctamente');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Carrera $carrera)
     {
-        //
+        return view('carreras/frm', ['carreras' => $this->carreras, "carrera" => $carrera, 'deptos' => $this->deptos, 'accion' => 'S', 'des' => 'disabled', 'btn' => 'ELIMINAR', 'color' => 'btn-danger']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Carrera $carrera)
     {
-        //
+        return view('carreras/frm', ['carreras' => $this->carreras, "carrera" => $carrera, 'deptos' => $this->deptos, 'accion' => 'E', 'des' => '', 'btn' => 'EDITAR', 'color' => 'btn-warning']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Carrera $carrera)
     {
-        //
+        $validado = $request->validate($this->val);
+        $carrera->update($validado);
+        return redirect()->route("carreras.index");
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Carrera $carrera)
     {
-        //
+        $carrera->delete();
+        return redirect()->route("carreras.index");
     }
 }
